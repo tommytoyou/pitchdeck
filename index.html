@@ -17,6 +17,8 @@
             color: white;
             min-height: 100vh;
             overflow: hidden;
+            margin: 0;
+            padding: 0;
         }
 
         .viewer-container {
@@ -24,65 +26,133 @@
             width: 100vw;
             height: 100vh;
             display: flex;
+            flex-direction: column;
+        }
+
+        .main-slide-area {
+            height: 90vh;
+            width: 100vw;
+            position: relative;
+            display: flex;
             align-items: center;
             justify-content: center;
+            background: #000;
         }
 
         .slide {
             display: none;
             width: 100%;
-            height: 100vh;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
 
         .slide.active {
-            display: flex;
+            display: block;
         }
 
         .slide img {
-            max-width: 95%;
-            max-height: 95vh;
-            width: auto;
-            height: auto;
+            width: 100%;
+            height: 100%;
             object-fit: contain;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+            background: #000;
         }
 
-        .error-message {
-            color: #ff6b6b;
-            text-align: center;
-            padding: 50px;
-            font-size: 1.2em;
-            background: rgba(255, 107, 107, 0.1);
-            border: 2px dashed #ff6b6b;
-            border-radius: 10px;
-            margin: 20px;
+        .carousel-ribbon {
+            height: 10vh;
+            width: 100vw;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 20px;
+            box-sizing: border-box;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .carousel-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            overflow-x: auto;
+            padding: 10px 0;
+            max-width: calc(100vw - 200px);
+        }
+
+        .carousel-container::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .carousel-container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .carousel-container::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+        }
+
+        .carousel-thumbnail {
+            min-width: 80px;
+            height: 50px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .carousel-thumbnail:hover {
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: scale(1.1);
+        }
+
+        .carousel-thumbnail.active {
+            border-color: #00d4ff;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        .carousel-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 2px;
+        }
+
+        .carousel-thumbnail .slide-number {
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-weight: bold;
         }
 
         .navigation {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
             display: flex;
-            gap: 20px;
+            gap: 10px;
             z-index: 1000;
         }
 
         .nav-btn {
-            padding: 15px 30px;
+            padding: 8px 15px;
             background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
             color: white;
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: bold;
-            font-size: 14px;
+            font-size: 12px;
         }
 
         .nav-btn:hover:not(:disabled) {
@@ -96,47 +166,33 @@
         }
 
         .slide-counter {
-            position: fixed;
-            top: 30px;
-            right: 30px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
             background: rgba(0, 0, 0, 0.8);
-            padding: 12px 20px;
-            border-radius: 8px;
+            padding: 8px 15px;
+            border-radius: 6px;
             font-weight: bold;
-            font-size: 16px;
+            font-size: 14px;
             z-index: 1000;
         }
 
         .fullscreen-btn {
-            position: fixed;
-            top: 30px;
-            left: 30px;
+            position: absolute;
+            top: 20px;
+            left: 20px;
             background: rgba(0, 0, 0, 0.8);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
             color: white;
-            padding: 12px 16px;
+            padding: 8px 12px;
             cursor: pointer;
             z-index: 1000;
-            font-size: 16px;
+            font-size: 14px;
         }
 
         .fullscreen-btn:hover {
             background: rgba(255, 255, 255, 0.1);
-        }
-
-        .instructions {
-            position: fixed;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.8);
-            padding: 15px 25px;
-            border-radius: 8px;
-            font-size: 14px;
-            text-align: center;
-            opacity: 0.8;
-            z-index: 999;
         }
     </style>
 </head>
@@ -148,111 +204,97 @@
             <span id="current-slide">1</span> / <span id="total-slides">16</span>
         </div>
 
-        <div class="instructions">
-            Use arrow keys, spacebar, or buttons to navigate • F for fullscreen
+        <div class="main-slide-area">
+            <!-- SLIDE 1 -->
+            <div class="slide active">
+                <img src="01.png" alt="Title Slide">
+            </div>
+
+            <!-- SLIDE 2 -->
+            <div class="slide">
+                <img src="02.png" alt="Phase 1">
+            </div>
+
+            <!-- SLIDE 3 -->
+            <div class="slide">
+                <img src="03.png" alt="Problems">
+            </div>
+
+            <!-- SLIDE 4 -->
+            <div class="slide">
+                <img src="04.png" alt="Solution">
+            </div>
+
+            <!-- SLIDE 5 -->
+            <div class="slide">
+                <img src="05.png" alt="Market Size">
+            </div>
+
+            <!-- SLIDE 6 -->
+            <div class="slide">
+                <img src="06.png" alt="Go-to-Market">
+            </div>
+
+            <!-- SLIDE 7 -->
+            <div class="slide">
+                <img src="07.png" alt="Business Model">
+            </div>
+
+            <!-- SLIDE 8 -->
+            <div class="slide">
+                <img src="08.png" alt="Competition">
+            </div>
+
+            <!-- SLIDE 9 -->
+            <div class="slide">
+                <img src="09.png" alt="Team">
+            </div>
+
+            <!-- SLIDE 10 -->
+            <div class="slide">
+                <img src="10.png" alt="Traction">
+            </div>
+
+            <!-- SLIDE 11 -->
+            <div class="slide">
+                <img src="11.png" alt="Spacecraft">
+            </div>
+
+            <!-- SLIDE 12 -->
+            <div class="slide">
+                <img src="12.png" alt="Revenue Model 1">
+            </div>
+
+            <!-- SLIDE 13 -->
+            <div class="slide">
+                <img src="13.png" alt="Revenue Model 2">
+            </div>
+
+            <!-- SLIDE 14 -->
+            <div class="slide">
+                <img src="14.png" alt="Technical Details">
+            </div>
+
+            <!-- SLIDE 15 -->
+            <div class="slide">
+                <img src="15.png" alt="Funding Needs">
+            </div>
+
+            <!-- SLIDE 16 -->
+            <div class="slide">
+                <img src="16.png" alt="Contact Info">
+            </div>
+
+            <div class="navigation">
+                <button class="nav-btn" id="prev-btn" onclick="previousSlide()">←</button>
+                <button class="nav-btn" id="next-btn" onclick="nextSlide()">→</button>
+            </div>
         </div>
 
-        <!-- SLIDE 1 -->
-        <div class="slide active">
-            <img src="slide-01.png" alt="Title Slide" 
-                 onerror="this.style.display='none'; this.parentNode.innerHTML='<div class=\'error-message\'>Put your first slide image here as:<br><strong>slide-01.png</strong></div>'">
-        </div>
-
-        <!-- SLIDE 2 -->
-        <div class="slide">
-            <img src="slide-02.png" alt="Phase 1" 
-                 onerror="this.style.display='none'; this.parentNode.innerHTML='<div class=\'error-message\'>Put your second slide image here as:<br><strong>slide-02.png</strong></div>'">
-        </div>
-
-        <!-- SLIDE 3 -->
-        <div class="slide">
-            <img src="slide-03.png" alt="Problems" 
-                 onerror="this.style.display='none'; this.parentNode.innerHTML='<div class=\'error-message\'>Put your third slide image here as:<br><strong>slide-03.png</strong></div>'">
-        </div>
-
-        <!-- SLIDE 4 -->
-        <div class="slide">
-            <img src="slide-04.png" alt="Solution" 
-                 onerror="this.style.display='none'; this.parentNode.innerHTML='<div class=\'error-message\'>Put your fourth slide image here as:<br><strong>slide-04.png</strong></div>'">
-        </div>
-
-        <!-- SLIDE 5 -->
-        <div class="slide">
-            <img src="slide-05.png" alt="Market Size" 
-                 onerror="this.style.display='none'; this.parentNode.innerHTML='<div class=\'error-message\'>Put your fifth slide image here as:<br><strong>slide-05.png</strong></div>'">
-        </div>
-
-        <!-- SLIDE 6 -->
-        <div class="slide">
-            <img src="slide-06.png" alt="Go-to-Market" 
-                 onerror="this.style.display='none'; this.parentNode.innerHTML='<div class=\'error-message\'>Put your sixth slide image here as:<br><strong>slide-06.png</strong></div>'">
-        </div>
-
-        <!-- SLIDE 7 -->
-        <div class="slide">
-            <img src="slide-07.png" alt="Business Model" 
-                 onerror="this.style.display='none'; this.parentNode.innerHTML='<div class=\'error-message\'>Put your seventh slide image here as:<br><strong>slide-07.png</strong></div>'">
-        </div>
-
-        <!-- SLIDE 8 -->
-        <div class="slide">
-            <img src="slide-08.png" alt="Competition" 
-                 onerror="this.style.display='none'; this.parentNode.innerHTML='<div class=\'error-message\'>Put your eighth slide image here as:<br><strong>slide-08.png</strong></div>'">
-        </div>
-
-        <!-- SLIDE 9 -->
-        <div class="slide">
-            <img src="slide-09.png" alt="Team" 
-                 onerror="this.style.display='none'; this.parentNode.innerHTML='<div class=\'error-message\'>Put your ninth slide image here as:<br><strong>slide-09.png</strong></div>'">
-        </div>
-
-        <!-- SLIDE 10 -->
-        <div class="slide">
-            <img src="slide-10.png" alt="Traction" 
-                 onerror="this.style.display='none'; this.parentNode.innerHTML='<div class=\'error-message\'>Put your tenth slide image here as:<br><strong>slide-10.png</strong></div>'">
-        </div>
-
-        <!-- SLIDE 11 -->
-        <div class="slide">
-            <img src="slide-11.png" alt="Spacecraft" 
-                 onerror="this.style.display='none'; this.parentNode.innerHTML='<div class=\'error-message\'>Put your eleventh slide image here as:<br><strong>slide-11.png</strong></div>'">
-        </div>
-
-        <!-- SLIDE 12 -->
-        <div class="slide">
-            <img src="slide-12.png" alt="Revenue Model 1" 
-                 onerror="this.style.display='none'; this.parentNode.innerHTML='<div class=\'error-message\'>Put your twelfth slide image here as:<br><strong>slide-12.png</strong></div>'">
-        </div>
-
-        <!-- SLIDE 13 -->
-        <div class="slide">
-            <img src="slide-13.png" alt="Revenue Model 2" 
-                 onerror="this.style.display='none'; this.parentNode.innerHTML='<div class=\'error-message\'>Put your thirteenth slide image here as:<br><strong>slide-13.png</strong></div>'">
-        </div>
-
-        <!-- SLIDE 14 -->
-        <div class="slide">
-            <img src="slide-14.png" alt="Technical Details" 
-                 onerror="this.style.display='none'; this.parentNode.innerHTML='<div class=\'error-message\'>Put your fourteenth slide image here as:<br><strong>slide-14.png</strong></div>'">
-        </div>
-
-        <!-- SLIDE 15 -->
-        <div class="slide">
-            <img src="slide-15.png" alt="Funding Needs" 
-                 onerror="this.style.display='none'; this.parentNode.innerHTML='<div class=\'error-message\'>Put your fifteenth slide image here as:<br><strong>slide-15.png</strong></div>'">
-        </div>
-
-        <!-- SLIDE 16 -->
-        <div class="slide">
-            <img src="slide-16.png" alt="Contact Info" 
-                 onerror="this.style.display='none'; this.parentNode.innerHTML='<div class=\'error-message\'>Put your sixteenth slide image here as:<br><strong>slide-16.png</strong></div>'">
-        </div>
-
-        <div class="navigation">
-            <button class="nav-btn" id="prev-btn" onclick="previousSlide()">← Previous</button>
-            <button class="nav-btn" onclick="showSlide(1)">First</button>
-            <button class="nav-btn" onclick="showSlide(totalSlides)">Last</button>
-            <button class="nav-btn" id="next-btn" onclick="nextSlide()">Next →</button>
+        <div class="carousel-ribbon">
+            <div class="carousel-container" id="carousel-container">
+                <!-- Thumbnails will be generated by JavaScript -->
+            </div>
         </div>
     </div>
 
@@ -260,9 +302,44 @@
         let currentSlide = 1;
         const totalSlides = 16;
 
+        function createCarousel() {
+            const carouselContainer = document.getElementById('carousel-container');
+            carouselContainer.innerHTML = '';
+            
+            for (let i = 1; i <= totalSlides; i++) {
+                const thumbnail = document.createElement('div');
+                thumbnail.className = 'carousel-thumbnail';
+                if (i === currentSlide) thumbnail.classList.add('active');
+                
+                thumbnail.innerHTML = `
+                    <div class="slide-number">${i}</div>
+                    <img src="${i.toString().padStart(2, '0')}.png" alt="Slide ${i}" onclick="showSlide(${i})">
+                `;
+                
+                carouselContainer.appendChild(thumbnail);
+            }
+        }
+
         function updateSlideCounter() {
             document.getElementById('current-slide').textContent = currentSlide;
             document.getElementById('total-slides').textContent = totalSlides;
+        }
+
+        function updateCarousel() {
+            const thumbnails = document.querySelectorAll('.carousel-thumbnail');
+            thumbnails.forEach((thumb, index) => {
+                thumb.classList.toggle('active', index + 1 === currentSlide);
+            });
+            
+            // Scroll active thumbnail into view
+            const activeThumbnail = document.querySelector('.carousel-thumbnail.active');
+            if (activeThumbnail) {
+                activeThumbnail.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest',
+                    inline: 'center'
+                });
+            }
         }
 
         function showSlide(n) {
@@ -279,6 +356,7 @@
             document.getElementById('next-btn').disabled = currentSlide === totalSlides;
             
             updateSlideCounter();
+            updateCarousel();
         }
 
         function nextSlide() {
@@ -334,17 +412,11 @@
         });
 
         // Initialize
-        showSlide(1);
-        updateSlideCounter();
-
-        // Hide instructions after 5 seconds
-        setTimeout(() => {
-            const instructions = document.querySelector('.instructions');
-            if (instructions) {
-                instructions.style.opacity = '0';
-                setTimeout(() => instructions.remove(), 500);
-            }
-        }, 5000);
+        document.addEventListener('DOMContentLoaded', function() {
+            createCarousel();
+            showSlide(1);
+            updateSlideCounter();
+        });
     </script>
 </body>
 </html>
